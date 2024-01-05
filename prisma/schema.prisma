@@ -5,9 +5,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// datasource db {
+//   provider = "sqlite"
+//   url      = env("DATABASE_URL")
+// }
+
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Tour {
@@ -17,9 +23,9 @@ model Tour {
   city String
   country String
   title String
-  description String
+  description String @db.Text // db.Text is for planet scale mysql db
   image String?
-  stops String
+  stops String @db.Text // db.Text is for planet scale mysql db
   @@unique([city,country])
 }
 

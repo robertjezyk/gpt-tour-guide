@@ -20,7 +20,10 @@ export const generateChateResponse = async (chatMessages) => {
       max_tokens: 100,
     });
 
-    return response.choices[0].message;
+    return {
+      message: response.choices[0].message,
+      tokens: response.usage.total_tokens,
+    };
   } catch (error) {
     console.error(error);
     return null;
@@ -94,9 +97,14 @@ export const createNewTour = async (tour) => {
 export const getAllTours = async (searchTerm) => {
   if (!searchTerm) {
     return prisma.tour.findMany({
-      orderBy: {
-        city: "asc",
-      },
+      orderBy: [
+        {
+          country: "asc",
+        },
+        {
+          city: "asc",
+        },
+      ],
     });
   }
 
@@ -115,9 +123,14 @@ export const getAllTours = async (searchTerm) => {
         },
       ],
     },
-    orderBy: {
-      city: "asc",
-    },
+    orderBy: [
+      {
+        country: "asc",
+      },
+      {
+        city: "asc",
+      },
+    ],
   });
 };
 
